@@ -1,4 +1,5 @@
 package domain;
+import java.io.File;
 import java.util.*;
 
 
@@ -22,6 +23,7 @@ public class AutomataCelular{
         return LONGITUD;
     }
 
+    public Elemento[][] getAutomata(){return this.automata;}
     public Elemento getElemento(int f,int c){
         return automata[f][c];
     }
@@ -91,4 +93,32 @@ public class AutomataCelular{
         }
     }
 
+    /**
+     * Toma del archivo dado su informacion (automata,sensor y longitud)
+     * @param file Archivo en donde se encuentra la informacion
+     */
+    public static void abrir(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+    }
+    /**
+     * Toma la informacion del automata y la guarda (automata,sensor y longitud)
+     * @param file Archivo en donde se guarda la informacion
+     */
+    public static void guardar(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+    }
+    /**
+     * Toma del archivo dado la informacion dada linea por linea
+     * @param file Archivo en donde se encuentra la informacion
+     */
+    public static void importar(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+    }
+    /**
+     * Toma la informacion del automata y la guarda (automata,sensor y longitud) en forma de texto
+     * @param file Archivo en donde se guarda la informacion
+     */
+    public static void exportar(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+    }
 }
