@@ -1,113 +1,94 @@
-package src.presentacion;
-import src.domain.*;
+package domain;
+import java.util.*;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
 
-public class AutomataGUI extends JFrame{  
-    public static final int CELDA=21;
-    public static final int DIMENSION=CELDA*31;
+/*No olviden adicionar la documentacion*/
+public class AutomataCelular{
+    static private int LONGITUD=30;
+    private Elemento[][] automata;
+    private String sensor = "yellow";
     
-    private JButton botonTicTac;
-    private JLabel lFila;
-    private JLabel lColumna;
-    private JTextField tFila;
-    private JTextField tColumna;
-    private JPanel panelControl;
-    private JPanel panelNueva;
-    private JPanel panelBNueva;
-    private JButton botonViva;
-    private JButton botonLatente;
-    private FotoAutomata foto;
-    
-    private AutomataCelular automata;
-
-    public AutomataGUI() {
-        automata= new AutomataCelular();
-        prepareElementos();
-        prepareAcciones();
-    }
-    
-    private void prepareElementos() {
-        setTitle("Automata celular");
-        foto=new FotoAutomata(this);
-        botonTicTac=new JButton("Tic-tac");
-        setLayout(new BorderLayout());
-        add(foto,BorderLayout.NORTH);
-        add(botonTicTac,BorderLayout.SOUTH);
-        setSize(new Dimension(DIMENSION,DIMENSION+50)); 
-        setResizable(false);
-        foto.repaint();
-    }
-
-    private void prepareAcciones(){
-        setDefaultCloseOperation(EXIT_ON_CLOSE);       
-        botonTicTac.addActionListener(
-            new ActionListener(){
-                public void actionPerformed(ActionEvent e) {
-                    botonTicTacAccion();
-                }
-            });
-
-    }
-
-    private void botonTicTacAccion() {
-        automata.ticTac();
-        foto.repaint();
-    }
-
-    public AutomataCelular getAutomata(){
-        return automata;
-    }
-    
-    public static void main(String[] args) {
-        AutomataGUI ca=new AutomataGUI();
-        ca.setVisible(true);
-    }  
-}
-
-class FotoAutomata extends JPanel{
-    private AutomataGUI gui;
-
-    public FotoAutomata(AutomataGUI gui) {
-        this.gui=gui;
-        setBackground(Color.white);
-        setPreferredSize(new Dimension(gui.DIMENSION, gui.DIMENSION));         
-    }
-
-
-    public void paintComponent(Graphics g){
-        AutomataCelular automata=gui.getAutomata();
-        super.paintComponent(g);
-         
-        for (int f=0;f<=automata.getLongitud();f++){
-            g.drawLine(f*gui.CELDA,0,f*gui.CELDA,automata.getLongitud()*gui.CELDA);
+    public AutomataCelular() {
+        automata=new Elemento[LONGITUD][LONGITUD];
+        for (int f=0;f<LONGITUD;f++){
+            for (int c=0;c<LONGITUD;c++){
+                automata[f][c]=null;
+            }
         }
-        for (int c=0;c<=automata.getLongitud();c++){
-            g.drawLine(0,c*gui.CELDA,automata.getLongitud()*gui.CELDA,c*gui.CELDA);
-        }       
-        for (int f=0;f<automata.getLongitud();f++){
-            for(int c=0;c<automata.getLongitud();c++){
-                if (automata.getElemento(f,c)!=null){
-                    g.setColor(automata.getElemento(f,c).getColor());
-                    if (automata.getElemento(f,c).forma()==Elemento.CUADRADA){                  
-                        if (automata.getElemento(f,c).isVivo()){
-                            g.fillRoundRect(gui.CELDA*c+1,gui.CELDA*f+1,gui.CELDA-2,gui.CELDA-2,2,2);
-                        }else{
-                            g.drawRoundRect(gui.CELDA*c+1,gui.CELDA*f+1,gui.CELDA-2,gui.CELDA-2,2,2);    
+        algunosElementos();
+    }
 
-                        }
-                    }else {
-                        if (automata.getElemento(f,c).isVivo()){
-                            g.fillOval(gui.CELDA*c+1,gui.CELDA*f+1,gui.CELDA-2,gui.CELDA-2);
-                        } else {
-                            g.drawOval(gui.CELDA*c+1,gui.CELDA*f+1,gui.CELDA-2,gui.CELDA-2);
-                        }
-                    }
+    public int  getLongitud(){
+        return LONGITUD;
+    }
+
+    public Elemento getElemento(int f,int c){
+        return automata[f][c];
+    }
+    
+    public String getSensor(){
+        return this.sensor;
+    }
+
+    public void setElemento(int f, int c, Elemento nueva){
+        automata[f][c]=nueva;
+    }
+
+    public void algunosElementos(){
+        SensorVida sensor_1 = new SensorVida(this,15,29);
+        SensorVida sensor_2 = new SensorVida(this,16,29);
+        SensorVida sensor_3 = new SensorVida(this,15,28);
+        SensorVida sensor_4 = new SensorVida(this,16,28);
+        Celula muerta = new Celula(this, 5,6);
+        setElemento(5,4,muerta);
+        setElemento(4,5,muerta);
+        ticTac();
+        ticTac();
+        ticTac();
+        Celula indiana = new Celula(this, 1,1);
+        Celula celula_007 = new Celula(this,2,2);
+        Celula agamenon = new CelulaEspecial(this,5,5);
+        Celula venus = new CelulaEspecial(this,10,10);
+        Calefactor suroeste = new Calefactor(this,0,29);
+        Calefactor noreste = new Calefactor(this,29,29);
+        Celula diego = new CelulaGenesis(this,20,20);
+        Celula cristian = new CelulaGenesis(this,6,23);
+        setElemento(0,29,suroeste);
+        setElemento(29,29,noreste);
+        CelulaConway con1 = new CelulaConway(this,14,15);
+        CelulaConway con2 = new CelulaConway(this,14,16);
+        prueba1();
+        prueba2();
+        prueba3();
+    }
+    
+    private void prueba1(){
+        CelulaConway john = new CelulaConway(this,5,27);
+        CelulaConway horton = new CelulaConway(this,5,28);
+    }
+    
+    private void prueba2(){
+        CelulaConway con5 = new CelulaConway(this,29,0);
+        CelulaConway con6 = new CelulaConway(this,29,1);
+        CelulaConway con7 = new CelulaConway(this,28,1);
+        CelulaConway con8 = new CelulaConway(this,28,0);
+    }
+    
+    private void prueba3(){
+        CelulaConway con9 = new CelulaConway(this,29,15);
+        CelulaConway con10 = new CelulaConway(this,29,16);
+        CelulaConway con11 = new CelulaConway(this,29,17);
+    }
+    
+    public void ticTac(){
+        for(Elemento[] array:automata){
+            for(Elemento elemento:array){
+                if(elemento != null){
+                    elemento.decida();
+                    elemento.cambie();
                 }
             }
         }
     }
+
 }
