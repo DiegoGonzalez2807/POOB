@@ -7,6 +7,9 @@ import java.awt.Color;
  * @author (your name) 
  * @version (a version number or a date)
  */
+
+//PRUEBA DE QUE FUNCIONA
+
 public class CelulaConway extends Celula
 {
 
