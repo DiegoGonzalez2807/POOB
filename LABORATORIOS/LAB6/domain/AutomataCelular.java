@@ -1,6 +1,6 @@
-package src.domain;
-import java.io.File;
+package domain;
 import java.util.*;
+import java.io.File;
 
 
 /*No olviden adicionar la documentacion*/
@@ -23,7 +23,6 @@ public class AutomataCelular{
         return LONGITUD;
     }
 
-    public Elemento[][] getAutomata(){return this.automata;}
     public Elemento getElemento(int f,int c){
         return automata[f][c];
     }
@@ -36,6 +35,47 @@ public class AutomataCelular{
         automata[f][c]=nueva;
     }
 
+    public static AutomataCelular nuevo(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+    }
+
+    /**
+     * Toma del archivo dado su informacion (automata,sensor y longitud)
+     * @param file Archivo en donde se encuentra la informacion
+     * @return Retorna el automata con la informacion del archivo
+     */
+    public static AutomataCelular abrir(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+       
+    }
+
+    /**
+     * Toma la informacion del automata,elementos, longitud y demas, y la guarda.
+     * @param file Archivo en donde se guarda la informacion
+     */
+    public static void guardar(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+    }
+
+    /**
+     * Toma del archivo dado la informacion dada linea por linea
+     * @param file Archivo en donde se encuentra la informacion
+     * @return Retorna el automata con la informacion del archivo
+     */
+    public static AutomataCelular importar(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+        
+    }
+
+     /**
+     * Toma la informacion del automata y la guarda  en forma de texto, el formato designado es componente posicion
+     * @param file Archivo en donde se guarda la informacion
+     */
+    public static void exportar(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+    }
+
+    
     public void algunosElementos(){
         SensorVida sensor_1 = new SensorVida(this,15,29);
         SensorVida sensor_2 = new SensorVida(this,16,29);
@@ -93,37 +133,4 @@ public class AutomataCelular{
         }
     }
 
-    /**
-     * Toma del archivo dado su informacion (automata,sensor y longitud)
-     * @param file Archivo en donde se encuentra la informacion
-     * @return Retorna el automata con la informacion del archivo
-     */
-    public static AutomataCelular abrir(File file) throws AutomataExcepcion{
-        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
-    }
-
-    /**
-     * Toma la informacion del automata,elementos, longitud y demas, y la guarda.
-     * @param file Archivo en donde se guarda la informacion
-     */
-    public static void guardar(File file) throws AutomataExcepcion{
-        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
-    }
-
-    /**
-     * Toma del archivo dado la informacion dada linea por linea
-     * @param file Archivo en donde se encuentra la informacion
-     * @return Retorna el automata con la informacion del archivo
-     */
-    public static AutomataCelular importar(File file) throws AutomataExcepcion{
-        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
-    }
-
-    /**
-     * Toma la informacion del automata y la guarda  en forma de texto, el formato designado es componente posicion
-     * @param file Archivo en donde se guarda la informacion
-     */
-    public static void exportar(File file) throws AutomataExcepcion{
-        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
-    }
 }
