@@ -3,8 +3,10 @@ import domain.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.*;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.*;
 
 public class AutomataGUI extends JFrame{  
     public static final int CELDA=21;
@@ -152,17 +154,25 @@ public class AutomataGUI extends JFrame{
     }
 
     private void opcionNuevo(){
-        try{
-            File archivo = new File("");
-            automata.nuevo(archivo);
-        }catch(AutomataExcepcion e){
-            JOptionPane.showMessageDialog(null, "Metodo en construccion, aun no se puede crear un nuevo archivo");
-        }
+            AutomataCelular nuevo = new AutomataCelular();
+            this.setVisible(false);
+            this.automata = nuevo;
+            this.setVisible(true);
+
     }
 
     private void opcionAbrir(){
+        File archivo = new File("");
         try{
-            File archivo = new File("");
+            JFileChooser fileChooser = new JFileChooser();
+            //FILTRA TODOS LOS ARCHIVOS Y SOLO DEJA LOS VISIBLES
+            //LOS QUE TENGAN EXTENSION .DAT.
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .DAT","DAT"));
+            int seleccion = fileChooser.showOpenDialog(this);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                archivo = fileChooser.getSelectedFile();
+            }
+            
             automata.abrir(archivo);
         }catch(AutomataExcepcion e){
             JOptionPane.showMessageDialog(null, "Metodo en construccion, aun no se puede abrir archivos externos");
@@ -170,8 +180,17 @@ public class AutomataGUI extends JFrame{
     }
 
     private void opcionGuardar(){
+        File archivo = new File("");
         try{
-            File archivo = new File("");
+            JFileChooser fileChooser = new JFileChooser();
+            //FILTRA TODOS LOS ARCHIVOS Y SOLO DEJA LOS VISIBLES
+            //LOS QUE TENGAN EXTENSION .DAT.
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .DAT","DAT"));
+            int seleccion = fileChooser.showSaveDialog(this);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                archivo = fileChooser.getSelectedFile();
+            }
+            
             automata.guardar(archivo);
         }catch(AutomataExcepcion e){
             JOptionPane.showMessageDialog(null, "Metodo en construccion, aun no se pueden guardar archivos");
