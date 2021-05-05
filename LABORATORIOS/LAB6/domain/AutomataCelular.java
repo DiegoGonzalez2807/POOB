@@ -1,6 +1,9 @@
 package domain;
 import java.util.*;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.*;
 
 
 /*No olviden adicionar la documentacion*/
@@ -58,6 +61,34 @@ public class AutomataCelular{
     }
 
     /**
+     * Toma del archivo dado su informacion (automata,sensor y longitud)
+     * @param file Archivo en donde se encuentra la informacion
+     * @return Retorna el automata con la informacion del archivo
+     */
+    public static AutomataCelular abra00(File file) throws AutomataExcepcion{
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+       
+    }
+
+    /**
+     * Toma la informacion del automata,elementos, longitud y demas, y la guarda.
+     * @param file Archivo en donde se guarda la informacion
+     */
+    public static void guarde00(File file) throws AutomataExcepcion{
+        //throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
+        if(!file.getName().endsWith(".dat")){
+            throw new AutomataExcepcion(AutomataExcepcion.EXTENSION_NO_VALIDA);
+        }
+        try{
+            ObjectOutputStream archivoGuardado = new ObjectOutputStream(new FileOutputStream(file));
+        }
+        catch(IOException e){
+
+        }
+    }
+
+
+    /**
      * Toma del archivo dado la informacion dada linea por linea
      * @param file Archivo en donde se encuentra la informacion
      * @return Retorna el automata con la informacion del archivo
@@ -75,7 +106,6 @@ public class AutomataCelular{
         throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
     }
 
-    
     public void algunosElementos(){
         SensorVida sensor_1 = new SensorVida(this,15,29);
         SensorVida sensor_2 = new SensorVida(this,16,29);
