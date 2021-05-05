@@ -74,16 +74,18 @@ public class AutomataCelular{
      * Toma la informacion del automata,elementos, longitud y demas, y la guarda.
      * @param file Archivo en donde se guarda la informacion
      */
-    public static void guarde00(File file) throws AutomataExcepcion{
+    public static void guarde00(AutomataCelular automata, File file) throws AutomataExcepcion{
         //throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
         if(!file.getName().endsWith(".dat")){
             throw new AutomataExcepcion(AutomataExcepcion.EXTENSION_NO_VALIDA);
         }
         try{
             ObjectOutputStream archivoGuardado = new ObjectOutputStream(new FileOutputStream(file));
+            archivoGuardado.writeObject(automata);
+            archivoGuardado.close();
         }
         catch(IOException e){
-
+            throw new AutomataExcepcion("Ocurrio un error al tratar de salvar el archivo bajo el nombre" + file.getName());
         }
     }
 
