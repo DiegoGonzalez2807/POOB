@@ -172,11 +172,15 @@ public class AutomataGUI extends JFrame{
             if (seleccion == JFileChooser.APPROVE_OPTION) {
                 archivo = fileChooser.getSelectedFile();
             }
-            
-            automata.abrir(archivo);
-        }catch(AutomataExcepcion e){
-            JOptionPane.showMessageDialog(null, "Metodo en construccion, aun no se puede abrir archivos externos");
+            AutomataCelular automata_ = automata.abrir(archivo);
+            this.setVisible(false);
+            this.automata = automata_;
+            this.setVisible(true);}catch(IOException e){
+            System.out.println(e.getMessage());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
+
     }
 
     private void opcionGuardar(){
