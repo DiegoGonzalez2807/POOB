@@ -180,7 +180,6 @@ public class AutomataGUI extends JFrame{
     }
 
     private void opcionGuardar(){
-        File archivo = new File("");
         try{
             JFileChooser fileChooser = new JFileChooser();
             //FILTRA TODOS LOS ARCHIVOS Y SOLO DEJA LOS VISIBLES
@@ -188,10 +187,8 @@ public class AutomataGUI extends JFrame{
             fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .DAT","DAT"));
             int seleccion = fileChooser.showSaveDialog(this);
             if (seleccion == JFileChooser.APPROVE_OPTION) {
-                archivo = fileChooser.getSelectedFile();
+                automata.guarde(automata,fileChooser.getSelectedFile());
             }
-            
-            automata.guarde00(automata,archivo);
         }catch(AutomataExcepcion e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
