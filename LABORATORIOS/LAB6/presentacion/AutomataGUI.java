@@ -198,20 +198,37 @@ public class AutomataGUI extends JFrame implements Serializable{
     }
 
     private void opcionImportar(){
+        File archivo = new File("");
         try{
-            File archivo = new File("");
-            automata.importar(archivo);
-        }catch(AutomataExcepcion e){
-            JOptionPane.showMessageDialog(null, "Metodo en construccion, aun no se puede importar archivos");
+            JFileChooser fileChooser = new JFileChooser();
+            //FILTRA TODOS LOS ARCHIVOS Y SOLO DEJA LOS VISIBLES
+            //LOS QUE TENGAN EXTENSION .DAT.
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .TXT","TXT"));
+            int seleccion = fileChooser.showOpenDialog(this);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                archivo = fileChooser.getSelectedFile();
+            }
+            AutomataCelular automata_ = automata.importar(archivo);
+            this.setVisible(false);
+            this.automata = automata_;
+            this.setVisible(true);}
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, e.getMessage()+archivo.getName());
         }
     }
 
     private void opcionExportar(){
         try{
-            File archivo = new File("");
-            automata.exportar(archivo);
-        }catch(AutomataExcepcion e){
-            JOptionPane.showMessageDialog(null, "Metodo en construccion, aun no se puede exportar archivos");
+            JFileChooser fileChooser = new JFileChooser();
+            //FILTRA TODOS LOS ARCHIVOS Y SOLO DEJA LOS VISIBLES
+            //LOS QUE TENGAN EXTENSION .DAT.
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .TXT","TXT"));
+            int seleccion = fileChooser.showSaveDialog(this);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                this.automata.exportar(fileChooser.getSelectedFile());
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
 
