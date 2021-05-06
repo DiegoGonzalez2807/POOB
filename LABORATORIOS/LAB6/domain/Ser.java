@@ -1,9 +1,10 @@
-package src.domain;
+package domain;
 
 import java.awt.Color;
+import java.io.Serializable;
 
 
-public abstract class Ser{
+public abstract class Ser implements Serializable{
     
     public final static char DESCONOCIDO='d', VIVO='v', MUERTO='m';
     protected char estado;
