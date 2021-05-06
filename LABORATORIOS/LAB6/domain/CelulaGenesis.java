@@ -1,5 +1,6 @@
-package src.domain;
+package domain;
 import java.util.ArrayList;
+import java.io.*;
 
 import java.lang.reflect.Array;
 
@@ -9,7 +10,7 @@ import java.lang.reflect.Array;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class CelulaGenesis extends CelulaEspecial
+public class CelulaGenesis extends CelulaEspecial implements Serializable
 {
     /**
      * Constructor de la nueva célula (Célula Génesis)
