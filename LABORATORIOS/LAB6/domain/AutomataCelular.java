@@ -48,9 +48,16 @@ public class AutomataCelular{
      * @param file Archivo en donde se encuentra la informacion
      * @return Retorna el automata con la informacion del archivo
      */
-    public static AutomataCelular abrir(File file) throws AutomataExcepcion{
-        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
-       
+    public static AutomataCelular abrir(File file) throws ClassNotFoundException,java.io.IOException,AutomataExcepcion{
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file.getName()));
+        try{
+            AutomataCelular automata = (AutomataCelular) in.readObject();
+            in.close();
+            return automata;
+        }
+        catch(Exception e){
+            throw e;
+        }
     }
 
     /**
