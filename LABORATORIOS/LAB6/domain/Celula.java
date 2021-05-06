@@ -1,14 +1,15 @@
-package src.domain;
+package domain;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /**Informacion sobre una célula<br>
 <b>(automata,fila,columna,edad, estado, estadoSigiente, color)</b><br>
 Las celulas conocenel automata en la que viven, la posición en la que están en ese autómata,su edad, su estado actual y el estado que van a tomar en el siguiente instante.<br>
 Todas las células son de color azul<br>
  */
-public class Celula extends Ser implements Elemento{
+public class Celula extends Ser implements Elemento,Serializable{
     protected char estadoSiguiente;
     protected Color color;
     protected AutomataCelular automata;
