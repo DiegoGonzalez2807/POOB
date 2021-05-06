@@ -48,9 +48,10 @@ public class AutomataCelular implements Serializable{
      * @return Retorna el automata con la informacion del archivo
      */
     public static AutomataCelular abrir(File file) throws ClassNotFoundException,java.io.IOException,AutomataExcepcion{
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file.getName()));
+        AutomataCelular automata=null;
         try{
-            AutomataCelular automata = (AutomataCelular) in.readObject();
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+            automata = (AutomataCelular) in.readObject();
             in.close();
             return automata;
         }
