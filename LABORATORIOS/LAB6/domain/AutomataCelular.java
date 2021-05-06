@@ -20,7 +20,7 @@
                     automata[f][c]=null;
                 }
             }
-            //algunosElementos();
+            algunosElementos();
             time = 0;
         }
     
@@ -62,6 +62,19 @@
             }
         }
         
+        public static AutomataCelular abra01(File file) throws AutomataExcepcion{
+            AutomataCelular automata=null;
+            try{
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+                automata = (AutomataCelular) in.readObject();
+                in.close();
+                return automata;
+            }
+            catch(Exception e){
+                throw new AutomataExcepcion(AutomataExcepcion.ERROR_ABRIR_ARCHIVO);
+            }
+        }
+        
         public static AutomataCelular abra00(File file) throws AutomataExcepcion{
             throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);       
         }
@@ -78,6 +91,18 @@
             }
             catch(Exception e){
                 throw e;
+            }
+    
+        }
+        
+        public void guarda01(AutomataCelular automata, File file) throws AutomataExcepcion{
+            try{
+                ObjectOutputStream archivoGuardado = new ObjectOutputStream(new FileOutputStream(file));
+                archivoGuardado.writeObject(automata);
+                archivoGuardado.close();
+            }
+            catch(Exception e){
+                throw new AutomataExcepcion(AutomataExcepcion.ERROR_ABRIR_ARCHIVO);
             }
     
         }
@@ -105,6 +130,30 @@
          * @param file Archivo en donde se encuentra la informacion
          * @return Retorna el automata con la informacion del archivo
          */
+        // public static AutomataCelular importar(File file) throws AutomataExcepcion{
+            // AutomataCelular automata = new AutomataCelular();
+            // try{
+                // BufferedReader bIn = new BufferedReader(new FileReader(file));
+                // String line = bIn.readLine();
+                // int i = 1;
+                // while(line!=null){
+                    // line = line.trim();
+                    // String[] informacion = line.split(" ");
+                    // String clase = "domain."+informacion[0];
+                    // int x = Integer.parseInt(informacion[1]);
+                    // int y = Integer.parseInt(informacion[2]);
+                    // Elemento elemento = (Elemento) Class.forName(clase).getDeclaredConstructor(AutomataCelular.class,int.class,int.class).newInstance(automata,x,y);
+                    // automata.setElemento(x,y,elemento);
+                    // line = bIn.readLine();
+                    // i++;
+                    
+                // }
+                // bIn.close();
+            // }
+            // catch(Exception e){
+                // throw new AutomataExcepcion(AutomataExcepcion.ERROR_ABRIR_ARCHIVO);}
+            // return automata;
+        // }
         public static AutomataCelular importar(File file) throws AutomataExcepcion{
             AutomataCelular automata = new AutomataCelular();
             try{
@@ -114,14 +163,32 @@
                 while(line!=null){
                     line = line.trim();
                     String[] informacion = line.split(" ");
-                    String clase = "domain."+informacion[0];
+                    String clase = informacion[0];
                     int x = Integer.parseInt(informacion[1]);
                     int y = Integer.parseInt(informacion[2]);
-                    Elemento elemento = (Elemento) Class.forName(clase).getDeclaredConstructor(AutomataCelular.class,int.class,int.class).newInstance(automata,x,y);
+                    Elemento elemento = null;
+                    switch(clase){
+                        case "Celula":
+                            elemento = new Celula(automata,x,y);
+                            break;
+                        case "CelulaConway":
+                            elemento = new CelulaConway(automata,x,y);
+                            break;
+                        case "CelulaGenesis":
+                            elemento = new CelulaGenesis(automata,x,y);
+                            break;
+                        case "Calefactor":
+                            elemento = new Calefactor(automata,x,y);
+                            break;
+                        case "CelulaEspecial":
+                            elemento = new CelulaEspecial(automata,x,y);
+                            break;
+                        case "SensorVida":
+                            elemento = new SensorVida(automata,x,y);
+                    }
                     automata.setElemento(x,y,elemento);
                     line = bIn.readLine();
                     i++;
-                    
                 }
                 bIn.close();
             }
