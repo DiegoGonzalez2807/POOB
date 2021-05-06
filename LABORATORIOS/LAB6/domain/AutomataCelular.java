@@ -4,11 +4,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.*;
-import javax.swing.JOptionPane;
 
 
 /*No olviden adicionar la documentacion*/
-public class AutomataCelular{
+public class AutomataCelular implements Serializable{
     static private int LONGITUD=30;
     private Elemento[][] automata;
     private String sensor = "yellow";
@@ -59,55 +58,41 @@ public class AutomataCelular{
             throw e;
         }
     }
-
-    /**
-     * Toma la informacion del automata,elementos, longitud y demas, y la guarda.
-     * @param file Archivo en donde se guarda la informacion
-     */
-    public static void guardar(File file) throws AutomataExcepcion{
-        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
-    }
-
-    /**
-     * Toma del archivo dado su informacion (automata,sensor y longitud)
-     * @param file Archivo en donde se encuentra la informacion
-     * @return Retorna el automata con la informacion del archivo
-     */
+    
     public static AutomataCelular abra00(File file) throws AutomataExcepcion{
-        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
-       
+        throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);       
     }
 
     /**
      * Toma la informacion del automata,elementos, longitud y demas, y la guarda.
      * @param file Archivo en donde se guarda la informacion
      */
-    public static void guarde00(AutomataCelular automata, File file) throws AutomataExcepcion{
+    public void guardar(AutomataCelular automata, File file) throws java.io.IOException,java.io.FileNotFoundException,AutomataExcepcion{
+        try{
+            ObjectOutputStream archivoGuardado = new ObjectOutputStream(new FileOutputStream(file));
+            archivoGuardado.writeObject(automata);
+            archivoGuardado.close();
+        }
+        catch(Exception e){
+            throw e;
+        }
+
+    }
+
+    /**
+     * Toma la informacion del automata,elementos, longitud y demas, y la guarda.
+     * @param file Archivo en donde se guarda la informacion
+     */
+    public static void guarde00(File file) throws AutomataExcepcion{
         //throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
         if(!file.getName().endsWith(".dat")){
-            throw new AutomataExcepcion(AutomataExcepcion.EXTENSION_NO_VALIDA);
+            throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
         }
         try{
             ObjectOutputStream archivoGuardado = new ObjectOutputStream(new FileOutputStream(file));
-            archivoGuardado.writeObject(automata);
-            archivoGuardado.close();
         }
         catch(IOException e){
-            throw new AutomataExcepcion("Ocurrio un error al tratar de salvar el archivo bajo el nombre" + " " + file.getName());
-        }
-    }
 
-    public void guarde(AutomataCelular automata, File file) throws AutomataExcepcion{
-        try{
-            ObjectOutputStream archivoGuardado = new ObjectOutputStream(new FileOutputStream(file));
-            archivoGuardado.writeObject(automata);
-            archivoGuardado.close();
-        }
-        catch(FileNotFoundException e){
-            JOptionPane.showMessageDialog(null,"Archivo no encontrado");
-        }
-        catch(IOException e){
-            JOptionPane.showMessageDialog(null,"Ocurrio un error al tratar de salvar el archivo bajo el nombre" + file.getName());
         }
     }
 
