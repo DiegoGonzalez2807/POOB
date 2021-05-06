@@ -176,10 +176,9 @@ public class AutomataGUI extends JFrame implements Serializable{
             this.setVisible(false);
             this.automata = automata_;
             this.setVisible(true);}
-            catch(Exception e){
-                
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, e.getClass().getName()+": "+e.getMessage());
         }
-
     }
 
     private void opcionGuardar(){
@@ -193,7 +192,7 @@ public class AutomataGUI extends JFrame implements Serializable{
                 this.automata.guardar(this.automata,fileChooser.getSelectedFile());
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getClass().getName()+": "+e.getMessage());
         }
     }
 
