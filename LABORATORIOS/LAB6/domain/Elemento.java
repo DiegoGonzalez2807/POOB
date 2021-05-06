@@ -1,8 +1,9 @@
-package src.domain;
+package domain;
 import java.awt.Color;
+import java.io.*;
 
 /*No olviden adicionar la documentacion*/
-public interface Elemento{
+public interface Elemento extends Serializable{
   int REDONDA = 1;
   int CUADRADA = 2;
 
