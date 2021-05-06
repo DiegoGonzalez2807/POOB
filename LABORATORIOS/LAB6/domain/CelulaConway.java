@@ -1,13 +1,15 @@
-package src.domain;
+package domain;
 import java.util.ArrayList;
 import java.awt.Color;
+import java.io.Serializable;
+
 /**
  * Write a description of class CelulaConway here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class CelulaConway extends Celula
+public class CelulaConway extends Celula implements Serializable
 {
 
     public CelulaConway(AutomataCelular automata, int fila, int columna)
