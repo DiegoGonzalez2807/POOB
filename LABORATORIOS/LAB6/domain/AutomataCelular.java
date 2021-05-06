@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.*;
+import javax.swing.JOptionPane;
 
 
 /*No olviden adicionar la documentacion*/
@@ -85,7 +86,21 @@ public class AutomataCelular{
             archivoGuardado.close();
         }
         catch(IOException e){
-            throw new AutomataExcepcion("Ocurrio un error al tratar de salvar el archivo bajo el nombre" + file.getName());
+            throw new AutomataExcepcion("Ocurrio un error al tratar de salvar el archivo bajo el nombre" + " " + file.getName());
+        }
+    }
+
+    public void guarde(AutomataCelular automata, File file) throws AutomataExcepcion{
+        try{
+            ObjectOutputStream archivoGuardado = new ObjectOutputStream(new FileOutputStream(file));
+            archivoGuardado.writeObject(automata);
+            archivoGuardado.close();
+        }
+        catch(FileNotFoundException e){
+            JOptionPane.showMessageDialog(null,"Archivo no encontrado");
+        }
+        catch(IOException e){
+            JOptionPane.showMessageDialog(null,"Ocurrio un error al tratar de salvar el archivo bajo el nombre" + file.getName());
         }
     }
 
