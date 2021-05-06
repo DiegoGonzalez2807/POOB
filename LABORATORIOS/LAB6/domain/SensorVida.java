@@ -1,13 +1,13 @@
-package src.domain;
+package domain;
 import java.awt.Color;
-
+import java.io.*;
 /**
  * Write a description of class SensorVida here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class SensorVida extends Ser implements Elemento
+public class SensorVida extends Ser implements Elemento,Serializable
 {
     protected Color color;
     private AutomataCelular automata;
