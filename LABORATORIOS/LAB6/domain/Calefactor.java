@@ -1,6 +1,7 @@
-package src.domain;
+package domain;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.io.*;
 
 /**
  * Write a description of class Calefactor here.
@@ -8,8 +9,7 @@ import java.util.ArrayList;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Calefactor extends Ser implements Elemento
-{
+public class Calefactor extends Ser implements Elemento,Serializable{
     protected Color color;
     private AutomataCelular automata;
     private int fila,columna;
