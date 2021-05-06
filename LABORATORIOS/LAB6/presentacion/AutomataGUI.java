@@ -8,7 +8,7 @@ import java.io.*;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.*;
 
-public class AutomataGUI extends JFrame{  
+public class AutomataGUI extends JFrame implements Serializable{  
     public static final int CELDA=21;
     public static final int DIMENSION=CELDA*31;
     
@@ -175,10 +175,9 @@ public class AutomataGUI extends JFrame{
             AutomataCelular automata_ = automata.abrir(archivo);
             this.setVisible(false);
             this.automata = automata_;
-            this.setVisible(true);}catch(IOException e){
-            System.out.println(e.getMessage());
-        }catch(Exception e){
-            System.out.println(e.getMessage());
+            this.setVisible(true);}
+            catch(Exception e){
+                
         }
 
     }
@@ -191,9 +190,9 @@ public class AutomataGUI extends JFrame{
             fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .DAT","DAT"));
             int seleccion = fileChooser.showSaveDialog(this);
             if (seleccion == JFileChooser.APPROVE_OPTION) {
-                automata.guarde(automata,fileChooser.getSelectedFile());
+                this.automata.guardar(this.automata,fileChooser.getSelectedFile());
             }
-        }catch(AutomataExcepcion e){
+        }catch(Exception e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
