@@ -1,12 +1,16 @@
-    package domain;
+package dominio;
     import java.util.*;
-    import java.io.File;
+
+import dominio.AutomataExcepcion;
+
+import java.io.File;
     import java.io.FileOutputStream;
     import java.io.ObjectOutputStream;
     import java.io.*;
     
     
     /*No olviden adicionar la documentacion*/
+    @SuppressWarnings("serial")
     public class AutomataCelular implements Serializable{
         static private int LONGITUD=30;
         private Elemento[][] automata;
@@ -61,8 +65,7 @@
                 throw e;
             }
         }
-        
-        public static AutomataCelular abra01(File file) throws AutomataExcepcion{
+        public static AutomataCelular abre01(File file) throws AutomataExcepcion{
             AutomataCelular automata=null;
             try{
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
@@ -74,7 +77,6 @@
                 throw new AutomataExcepcion(AutomataExcepcion.ERROR_ABRIR_ARCHIVO);
             }
         }
-        
         public static AutomataCelular abra00(File file) throws AutomataExcepcion{
             throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);       
         }
@@ -92,10 +94,8 @@
             catch(Exception e){
                 throw e;
             }
-    
         }
-        
-        public void guarda01(AutomataCelular automata, File file) throws AutomataExcepcion{
+        public void guarde01(AutomataCelular automata, File file) throws AutomataExcepcion{
             try{
                 ObjectOutputStream archivoGuardado = new ObjectOutputStream(new FileOutputStream(file));
                 archivoGuardado.writeObject(automata);
@@ -104,13 +104,7 @@
             catch(Exception e){
                 throw new AutomataExcepcion(AutomataExcepcion.ERROR_ABRIR_ARCHIVO);
             }
-    
         }
-    
-        /**
-         * Toma la informacion del automata,elementos, longitud y demas, y la guarda.
-         * @param file Archivo en donde se guarda la informacion
-         */
         public static void guarde00(File file) throws AutomataExcepcion{
             //throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
             if(!file.getName().endsWith(".dat")){
@@ -125,36 +119,95 @@
         }
     
     
-        /**
+       /**
          * Toma del archivo dado la informacion dada linea por linea
          * @param file Archivo en donde se encuentra la informacion
          * @return Retorna el automata con la informacion del archivo
          */
-        // public static AutomataCelular importar(File file) throws AutomataExcepcion{
-            // AutomataCelular automata = new AutomataCelular();
-            // try{
-                // BufferedReader bIn = new BufferedReader(new FileReader(file));
-                // String line = bIn.readLine();
-                // int i = 1;
-                // while(line!=null){
-                    // line = line.trim();
-                    // String[] informacion = line.split(" ");
-                    // String clase = "domain."+informacion[0];
-                    // int x = Integer.parseInt(informacion[1]);
-                    // int y = Integer.parseInt(informacion[2]);
-                    // Elemento elemento = (Elemento) Class.forName(clase).getDeclaredConstructor(AutomataCelular.class,int.class,int.class).newInstance(automata,x,y);
-                    // automata.setElemento(x,y,elemento);
-                    // line = bIn.readLine();
-                    // i++;
-                    
-                // }
-                // bIn.close();
-            // }
-            // catch(Exception e){
-                // throw new AutomataExcepcion(AutomataExcepcion.ERROR_ABRIR_ARCHIVO);}
-            // return automata;
-        // }
         public static AutomataCelular importar(File file) throws AutomataExcepcion{
+            AutomataCelular automata = new AutomataCelular();
+            int i = 1;
+            String clase = "";
+            String[] informacion = null;
+            int x = 0;
+            int y= 0;
+            try{
+                BufferedReader bIn = new BufferedReader(new FileReader(file));
+                String line = bIn.readLine();
+                while(line!=null){
+                    line = line.trim();
+                    informacion = line.split(" ");
+                    clase = "dominio."+informacion[0];
+                    x = Integer.parseInt(informacion[1]);
+                    y = Integer.parseInt(informacion[2]);
+                    Elemento elemento = (Elemento) Class.forName(clase).getDeclaredConstructor(AutomataCelular.class,int.class,int.class).newInstance(automata,x,y);
+                    automata.setElemento(x,y,elemento);
+                    line = bIn.readLine();
+                    i++;
+                }
+                bIn.close();
+            }
+            catch(Exception e){
+                String mensaje = "Error en linea "+String.valueOf(i)+" en "+informacion[0]+" "+e.getCause();
+                Logger.mensaje(mensaje,new File("automataErrG.txt"));
+                throw new AutomataExcepcion(e.getClass().getName()+": "+e.getCause()+": "+e.getMessage());
+            }
+            return automata;
+        }
+        public static AutomataCelular importe03(File file) throws IOException,java.io.FileNotFoundException,AutomataExcepcion{
+            AutomataCelular automata = new AutomataCelular();
+            int i = 1;
+            String clase = "";
+            String[] informacion = null;
+            int x = 0;
+            int y= 0;
+            try{
+                BufferedReader bIn = new BufferedReader(new FileReader(file));
+                String line = bIn.readLine();
+                while(line!=null){
+                    line = line.trim();
+                    informacion = line.split(" ");
+                    clase = informacion[0];
+                    x = Integer.parseInt(informacion[1]);
+                    y = Integer.parseInt(informacion[2]);
+                    Elemento elemento = null;
+                    switch(clase){
+                        case "Celula":
+                            elemento = new Celula(automata,x,y);
+                            break;
+                        case "CelulaConway":
+                            elemento = new CelulaConway(automata,x,y);
+                            break;
+                        case "CelulaGenesis":
+                            elemento = new CelulaGenesis(automata,x,y);
+                            break;
+                        case "Calefactor":
+                            elemento = new Calefactor(automata,x,y);
+                            break;
+                        case "CelulaEspecial":
+                            elemento = new CelulaEspecial(automata,x,y);
+                            break;
+                        case "SensorVida":
+                            elemento = new SensorVida(automata,x,y);
+                    }
+                    if(elemento == null){ 
+                        String mensaje = "Error en linea "+String.valueOf(i)+" en "+informacion[0]+" "+"Clase no encontrada";
+                        Logger.mensaje(mensaje,new File("automataErr.txt"));
+                        throw new AutomataExcepcion(AutomataExcepcion.CLASE_NO_ENCONTRADA);
+                    }
+                    automata.setElemento(x,y,elemento);
+                    line = bIn.readLine();
+                    i++;
+                }
+                bIn.close();
+            }
+            catch(Exception e){
+                String mensaje = "Error en linea "+String.valueOf(i)+" en "+informacion[0]+" "+e.getCause();
+                Logger.mensaje(mensaje,new File("automataErr.txt"));
+                throw e;}
+            return automata;
+        }
+        public static AutomataCelular importe02(File file) throws IOException,java.io.FileNotFoundException,AutomataExcepcion{
             AutomataCelular automata = new AutomataCelular();
             try{
                 BufferedReader bIn = new BufferedReader(new FileReader(file));
@@ -186,6 +239,54 @@
                         case "SensorVida":
                             elemento = new SensorVida(automata,x,y);
                     }
+                    if(elemento == null){ 
+                        throw new AutomataExcepcion(AutomataExcepcion.CLASE_NO_ENCONTRADA);
+                    }
+                    automata.setElemento(x,y,elemento);
+                    line = bIn.readLine();
+                    i++;
+                }
+                bIn.close();
+            }
+            catch(Exception e){
+                throw e;}
+            return automata;
+        }
+        public static AutomataCelular importe01(File file) throws AutomataExcepcion{
+            AutomataCelular automata = new AutomataCelular();
+            try{
+                BufferedReader bIn = new BufferedReader(new FileReader(file));
+                String line = bIn.readLine();
+                int i = 1;
+                while(line!=null){
+                    line = line.trim();
+                    String[] informacion = line.split(" ");
+                    String clase = informacion[0];
+                    int x = Integer.parseInt(informacion[1]);
+                    int y = Integer.parseInt(informacion[2]);
+                    Elemento elemento = null;
+                    switch(clase){
+                        case "Celula":
+                            elemento = new Celula(automata,x,y);
+                            break;
+                        case "CelulaConway":
+                            elemento = new CelulaConway(automata,x,y);
+                            break;
+                        case "CelulaGenesis":
+                            elemento = new CelulaGenesis(automata,x,y);
+                            break;
+                        case "Calefactor":
+                            elemento = new Calefactor(automata,x,y);
+                            break;
+                        case "CelulaEspecial":
+                            elemento = new CelulaEspecial(automata,x,y);
+                            break;
+                        case "SensorVida":
+                            elemento = new SensorVida(automata,x,y);
+                    }
+                    if(elemento == null){ 
+                        throw new AutomataExcepcion(AutomataExcepcion.CLASE_NO_ENCONTRADA);
+                    }
                     automata.setElemento(x,y,elemento);
                     line = bIn.readLine();
                     i++;
@@ -199,7 +300,7 @@
         public static AutomataCelular importe00(File file) throws AutomataExcepcion{
             throw new AutomataExcepcion(AutomataExcepcion.OPCION_CONSTRUCCION);
         }
-    
+
          /**
          * Toma la informacion del automata y la guarda  en forma de texto, el formato designado es componente posicion
          * @param file Archivo en donde se guarda la informacion
@@ -219,6 +320,40 @@
             }
             catch(Exception e){
                 throw e;
+            }
+        }
+        public void exporte02(File file) throws java.io.FileNotFoundException,AutomataExcepcion{
+            try{
+                PrintWriter pw = new PrintWriter(new FileOutputStream(file));
+                for(int i=0;i<30;i++){
+                    for(int j=0;j<30;j++){
+                        if(automata[i][j]!=null){
+                                pw.println(automata[i][j].getClass().toString().replace("class","").replace(" domain.","")+
+                                " "+String.valueOf(i)+" "+String.valueOf(j));
+                            }
+                    }
+                }
+                pw.close();
+            }
+            catch(Exception e){
+                throw e;
+            }
+        }
+        public void exporte01(File file) throws AutomataExcepcion{
+            try{
+                PrintWriter pw = new PrintWriter(new FileOutputStream(file));
+                for(int i=0;i<30;i++){
+                    for(int j=0;j<30;j++){
+                        if(automata[i][j]!=null){
+                                pw.println(automata[i][j].getClass().toString().replace("class","").replace(" domain.","")+
+                                " "+String.valueOf(i)+" "+String.valueOf(j));
+                            }
+                    }
+                }
+                pw.close();
+            }
+            catch(Exception e){
+                throw new AutomataExcepcion(AutomataExcepcion.ERROR_ABRIR_ARCHIVO);
             }
         }
         public static void exporte00(File file) throws AutomataExcepcion{
@@ -286,6 +421,9 @@
                 }
             }
             time++;
+        }
+        public static void main(String[] args){
+            AutomataCelular nuevo = new AutomataCelular();
         }
     
     }
