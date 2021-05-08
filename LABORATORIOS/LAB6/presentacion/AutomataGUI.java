@@ -1,5 +1,5 @@
 package presentacion;
-import domain.*;
+import dominio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -50,6 +50,9 @@ public class AutomataGUI extends JFrame implements Serializable{
         prepareElementosMenu();
     }
 
+    /**
+     * Funcion encargada de la preparación del menu de opciones del simulador
+     */
     private void prepareElementosMenu(){
         //CREADOR DEL MENU
         menu();
@@ -57,10 +60,16 @@ public class AutomataGUI extends JFrame implements Serializable{
         opcionesMenu();
     }
 
+    /**
+     * Se encarga de meter la barra de menú que hayamos iniciado
+     */
     private void menu(){
         setJMenuBar(menu_bar);
     }
 
+    /**
+     * Funcion que se encarga de meter los botones en la barra de menu que hayamos creado
+     */
     private void opcionesMenu(){
         menu1 = new JMenu("Menu");
         menu_bar.add(menu1);
@@ -176,23 +185,24 @@ public class AutomataGUI extends JFrame implements Serializable{
             this.setVisible(false);
             this.automata = automata_;
             this.setVisible(true);}
-        catch(Exception e){
-            JOptionPane.showMessageDialog(this, e.getClass().getName()+": "+e.getMessage());
+            catch(Exception e){
+                
         }
+
     }
 
     private void opcionGuardar(){
         try{
             JFileChooser fileChooser = new JFileChooser();
             //FILTRA TODOS LOS ARCHIVOS Y SOLO DEJA LOS VISIBLES
-            //LOS QUE TENGAN EXTENSION .DAT.
+            //LOS QUE TENGAN EXTENSION .DAT.    
             fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .DAT","DAT"));
             int seleccion = fileChooser.showSaveDialog(this);
             if (seleccion == JFileChooser.APPROVE_OPTION) {
                 this.automata.guardar(this.automata,fileChooser.getSelectedFile());
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, e.getClass().getName()+": "+e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
 
@@ -207,12 +217,13 @@ public class AutomataGUI extends JFrame implements Serializable{
             if (seleccion == JFileChooser.APPROVE_OPTION) {
                 archivo = fileChooser.getSelectedFile();
             }
-            AutomataCelular automata_ = automata.importar(archivo);
+            AutomataCelular automata_ = automata.importe03(archivo);
             this.setVisible(false);
             this.automata = automata_;
             this.setVisible(true);}
             catch(Exception e){
-                JOptionPane.showMessageDialog(this, e.getMessage()+archivo.getName());
+                JOptionPane.showMessageDialog(this, e.getMessage()+" "+archivo.getName());
+                
         }
     }
 
