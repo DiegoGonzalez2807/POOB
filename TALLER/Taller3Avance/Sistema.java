@@ -11,8 +11,32 @@ public class Sistema{
     private HashSet<Troncal> troncales;
     private TreeMap<String,Estacion> estaciones;
 
+    /**
+     * Función que retorna el tiempo de espera de una estación (en minutos)
+     * de acuerdo al nombre de esta
+     * @param nombreEstacion
+     * @return
+     */
     public int tiempoEspera(String nombreEstacion){
         return estaciones.get(nombreEstacion).getTiempoEspera();
+    }
+    
+    /**
+     * Función encargada de retornar un arreglo de rutas que contengan
+     * las dos estaciones requeridas y que en el camino no se tengan que hacer
+     * transbordos
+     * @param estacion1
+     * @param estacion2
+     * @return
+     */
+    public ArrayList<String> noTransbordos(String estacion1, String estacion2){
+        ArrayList<String> listaRutas = new ArrayList<String>();
+        for(HashMap.Entry<String, Ruta> entry: rutas.entrySet()){
+            if(entry.getValue().sinTransbordo(estacion1, estacion2)){
+
+            }
+        }
+        return listaRutas;
     }
 
     public Ruta importarRuta(String urlRuta){
