@@ -11,10 +11,8 @@ public class Sistema{
     private HashSet<Troncal> troncales;
     private TreeMap<String,Estacion> estaciones;
 
-    public ArrayList<String> nombreEstaciones(){
-        ArrayList<String> nombres = new ArrayList<String>();
-        
-        return nombres;
+    public int tiempoEspera(String nombreEstacion){
+        return estaciones.get(nombreEstacion).getTiempoEspera();
     }
 
     public Ruta importarRuta(String urlRuta){
