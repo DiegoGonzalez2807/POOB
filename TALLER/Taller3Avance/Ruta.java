@@ -8,14 +8,14 @@ public class Ruta {
     //PARADAS DE LA RUTA
     protected ArrayList<Estacion> paradas;
 
-
+    /**
+     * Constructor de la clase Ruta
+     * @param nombre
+     * @param paradas
+     */
     public Ruta(String nombre, ArrayList<Estacion> paradas){
         this.nombre_ruta = nombre;
         this.paradas = paradas;
-    }
-
-    public ArrayList<Estacion> ruta_funcional_1(String estacion_1, String estacion_2){
-        return null;
     }
 
     /**
@@ -26,7 +26,7 @@ public class Ruta {
      * @param estacion_2
      * @return --> ambas estaciones están en la ruta
      */
-    private boolean sinTransbordo(String estacion_1, String estacion_2){
+    public boolean sinTransbordo(String estacion_1, String estacion_2){
         boolean answer = false;
         //CASO DONDE SOLO SE TIENE QUE ENCONTRAR LA ESTACION 1 Y 2
         if(checkerEstacion(estacion_1) && checkerEstacion(estacion_2)){
@@ -50,5 +50,13 @@ public class Ruta {
             }
         }
         return answer;
+    }
+
+    public String getName(){
+        return this.nombre_ruta;
+    }
+
+    public int getParadasSize(){
+        return this.paradas.size();
     }
 }
