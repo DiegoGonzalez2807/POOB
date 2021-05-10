@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.*;
 import java.util.Collections;
+import java.util.Set;
 /**
  * Clase que contiene la informacion del sistema de Transmilenio
  * @author Cristian Castellanos-Diego Gonzalez
@@ -19,6 +20,24 @@ public class Sistema{
      */
     public int tiempoEspera(String nombreEstacion){
         return estaciones.get(nombreEstacion).getTiempoEspera();
+    }
+
+    /**
+     * Función que se encarga de retornar una lista con las estaciones
+     * ordenadas de manera alfabética
+     * @return
+     */
+    public ArrayList<String> estacionesAlfabetica(){
+        ArrayList<String> listaEstaciones = new ArrayList<String>();
+        for(String nombre: estaciones.keySet()){
+            //AÑADE LOS NOMBRES DE LAS ESTACIONES (LAS LLAVES)
+            //AL ARRAYLIST
+            listaEstaciones.add(nombre);
+        }
+        //ORDENA DE MANERA ALFABETICA EL ARREGLO DE NOMBRES
+        Collections.sort(listaEstaciones);
+        return listaEstaciones;
+
     }
     
     /**
@@ -53,6 +72,22 @@ public class Sistema{
             Collections.sort(listaRutas);
         }
         return listaRutas;
+    }
+
+    public void mejorPlan(String estacion1, String estacion2){
+        //PRIMER CASO PARA PLAN SIN TRANSBORDO
+        TreeMap<Integer,Ruta> rutas1 = new TreeMap<Integer,Ruta>();
+
+        for(String key: rutas.keySet()){
+            Ruta ruta = rutas.get(key);
+
+            //REVISA QUE LAS ESTACIONES SI ESTÉN EN LA RUTA
+            if(ruta.sinTransbordo(estacion1, estacion2)){
+                //METE LA RUTA QUE SIRVE
+                rutas1.put(ruta.getParadasSize(), ruta);
+            }
+        }
+        int menorRuta = rutas1.firstKey();
     }
 
     public Ruta importarRuta(String urlRuta){
