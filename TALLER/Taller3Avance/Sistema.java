@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.Collections;
 /**
  * Clase que contiene la informacion del sistema de Transmilenio
  * @author Cristian Castellanos-Diego Gonzalez
@@ -27,14 +27,30 @@ public class Sistema{
      * transbordos
      * @param estacion1
      * @param estacion2
-     * @return
+     * @return --> Lista de rutas funcionales
      */
     public ArrayList<String> noTransbordos(String estacion1, String estacion2){
+        //ARRAYLIST QUE VA A RETORNAR LOS NOMBRES DE LAS RUTAS
         ArrayList<String> listaRutas = new ArrayList<String>();
-        for(HashMap.Entry<String, Ruta> entry: rutas.entrySet()){
-            if(entry.getValue().sinTransbordo(estacion1, estacion2)){
 
+        //TREEMAP QUE SE VA A ENCARGAR DE ORDENAR LAS RUTAS POR 
+        //NUMERO DE PARADAS
+        TreeMap<Integer,String> rutas1 = new TreeMap<Integer,String>();
+
+        for(String key: rutas.keySet()){
+            Ruta ruta = rutas.get(key);
+
+            //REVISA QUE LAS ESTACIONES SI ESTÉN EN LA RUTA
+            if(ruta.sinTransbordo(estacion1, estacion2)){
+                rutas1.put(ruta.getParadasSize(), ruta.getName());
             }
+        }
+        for(int key: rutas1.keySet()){
+            //METE LOS NOMBRES ORDENADOS DE ACUERDO A LA CANTIDAD DE PARADAS
+            listaRutas.add(rutas1.get(key));
+
+            //SE ORDENAN ALFABETICAMENTE
+            Collections.sort(listaRutas);
         }
         return listaRutas;
     }
