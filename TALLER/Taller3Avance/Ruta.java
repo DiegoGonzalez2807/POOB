@@ -59,4 +59,7 @@ public class Ruta {
     public int getParadasSize(){
         return this.paradas.size();
     }
+    public ArrayList<Estacion> getParadas(){
+        return this.paradas;
+    }
 }
