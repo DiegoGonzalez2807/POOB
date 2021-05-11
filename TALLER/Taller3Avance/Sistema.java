@@ -1,6 +1,9 @@
 import java.util.*;
 import java.io.*;
+import java.nio.Buffer;
 import java.util.Collections;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.Set;
 /**
  * Clase que contiene la informacion del sistema de Transmilenio
@@ -74,7 +77,15 @@ public class Sistema{
         return listaRutas;
     }
 
-    public void mejorPlan(String estacion1, String estacion2){
+    /**
+     * Función que se encarga de retornar la ruta con el mejor plan de
+     * recorrido entre una estación y otra
+     * @param estacion1
+     * @param estacion2
+     * @return
+     */
+    public Ruta mejorPlan(String estacion1, String estacion2){
+        Ruta mejorRuta = null;
         //PRIMER CASO PARA PLAN SIN TRANSBORDO
         TreeMap<Integer,Ruta> rutas1 = new TreeMap<Integer,Ruta>();
 
@@ -88,45 +99,51 @@ public class Sistema{
             }
         }
         int menorRuta = rutas1.firstKey();
+
+        return mejorRuta;
     }
 
-    public Ruta importarRuta(String urlRuta){
-        Ruta ruta = null;
-        try{
-            BufferedReader bIn = new BufferedReader(new FileReader(urlRuta));
-            //Lee la primera linea del archivo
-            String line = bIn.readLine();
-            ArrayList<Estacion> estaciones = new ArrayList<Estacion>();
-            String nameRuta = "";
-            if(line!=null){nameRuta = line;}
-            while(line != null){
-                Estacion estacion = new Estacion(line);
-                estaciones.add(estacion);
-                line = bIn.readLine();
-            }
-            ruta = new Ruta(nameRuta,estaciones);
-            bIn.close();
-        }
-        catch(IOException e){
-            System.out.println("Archivo no encontrado");
-        }
-        return ruta;
-    }
+    /**
+     * Importar una nueva ruta desde un archivo de texto. El archivo contiene el nombre de la
+     * ruta y el nombre de las estaciones por las que pasa.
+     * @param file
+     * @return --> nueva ruta
+     */
+    public Ruta importarRuta(File file) throws IOException,java.io.FileNotFoundException{
+        Ruta nuevaRuta = null;
+        ArrayList<Estacion> paradas = new ArrayList<Estacion>();
 
-    public void exportarRecorrido(ArrayList<Estacion> recorrido){
         try{
-            PrintWriter pw = new PrintWriter(new FileOutputStream("rutaDeseada.txt"));
-            //Se ingresa en el archivo el nombre de las estaciones de mejor recorrido
-            for(Estacion estacion:recorrido){
-                pw.println(estacion.getName());
-            }
-            //Se guardan los cambios en el archivo
-            pw.flush();
-            //Se cierra el archivo
-            pw.close();
+           BufferedReader entrada = new BufferedReader(new FileReader(file));
+           //LECTURA DEL NOMBRE DE LA RUTA
+           String nombre = entrada.readLine();
+           //LECTURA DE LA PRIMER ESTACION
+           String line2 = entrada.readLine();
+           while(line2 != null){
+               Estacion nuevaEstacion = new Estacion(line2);
+               paradas.add(nuevaEstacion);
+               //LECTURA DEL NOMBRE DE LA ESTACION
+               line2 = entrada.readLine();
+           }
+           nuevaRuta = new Ruta(nombre,paradas);
+           //SE INSERTA LA NUEVA RUTA A LAS RUTAS DEL SISTEMA
+           rutas.put(nombre, nuevaRuta);
+           entrada.close();
         }
-        catch(FileNotFoundException e){
-            System.out.println("Rayos");
+        //EXCEPCIONES JAVA Y JAVAIO
+        catch(Exception e){
+            throw e;
+        }
+        return nuevaRuta;
+
+    }
+    public void exportarRecorrido(File file)throws IOException{
+        try{
+            PrintWriter printer = new PrintWriter(new FileOutputStream(file));
+
+        }
+        catch(Exception e){
+            throw e;
         }
     }
 
