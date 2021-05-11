@@ -118,12 +118,14 @@ public class Sistema{
            //LECTURA DEL NOMBRE DE LA RUTA
            String nombre = entrada.readLine();
            //LECTURA DE LA PRIMER ESTACION
-           String line2 = entrada.readLine();
+           //SE TOMA LA ENTRADA DE ESTACION COMO:
+            //          {nombreEstacion,Troncal}
+           String[] line2 = entrada.readLine().split("");
            while(line2 != null){
-               Estacion nuevaEstacion = new Estacion(line2);
+               Estacion nuevaEstacion = new Estacion(line2[0], line2[1]);
                paradas.add(nuevaEstacion);
                //LECTURA DEL NOMBRE DE LA ESTACION
-               line2 = entrada.readLine();
+               line2 = entrada.readLine().split("");
            }
            nuevaRuta = new Ruta(nombre,paradas);
            //SE INSERTA LA NUEVA RUTA A LAS RUTAS DEL SISTEMA
@@ -147,18 +149,22 @@ public class Sistema{
         }
     }
 
-    public void guardarTroncal(Troncal troncal){
+    /**
+     * Función que guarda en un archivo toda la información actual de
+     * la troncal que uno desee
+     * @param troncal
+     * @param file
+     * @throws java.io.IOException
+     * @throws java.io.FileNotFoundException
+     */
+    public void guardarTroncal(Troncal troncal, File file) throws java.io.IOException,java.io.FileNotFoundException {
         try{
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Troncal"+troncal.getName()+".out"));
-            out.writeObject("Troncal"+"troncal.getName");
-            out.writeObject(troncal);
-            out.close();
+            ObjectOutputStream archivoGuardar = new ObjectOutputStream(new FileOutputStream(file));
+            archivoGuardar.writeObject(troncal);
+            archivoGuardar.close();
         }
-        catch(FileNotFoundException e){
-            System.out.println("Archivo no encontrado");
-        }
-        catch(IOException e){
-            System.out.println("IOException");;
+        catch(Exception e){
+            throw e;
         }
     }    
 }
