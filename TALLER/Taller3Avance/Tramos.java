@@ -22,14 +22,26 @@ public class Tramos {
         this.distancia = distancia;
     }
 
+    /**
+     * Retorna la distancia entre las dos estaciones
+     * @return --> Distancia entre dos estaciones
+     */
     public int getDistancia(){
         return this.distancia;
     }
 
+    /**
+     * Retorna el nombre de la primer estación
+     * @return --> nombre de la primer estación
+     */
     public String getEstacion1(){
         return this.estacion1;
     }
 
+    /**
+     * Retorna el nombre de la segunda estación
+     * @return --> nombre de la segunda estación
+     */
     public String getEstacion2(){
         return this.estacion2;
     }
