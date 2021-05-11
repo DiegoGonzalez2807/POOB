@@ -113,10 +113,11 @@ public class Sistema{
         Ruta ruta_ = null;
         String estacion = null;
         ArrayList<Estacion> estaciones= null;
+        int index = 0;
         //Mira en cada una de las rutas del plan dado, las esataciones por donde pasa y la estacion en donde se transborda o el destino de la ruta
         for(int i=0;i<planRuta.length-1;i++){
-            ruta_ =  rutas.get(parada[i][1]);
-            estacion = parada[i][0];
+            ruta_ =  rutas.get(planRuta[i][1]);
+            estacion = planRuta[i][0];
             index = ruta_.index(estacion);
             estaciones = ruta_.getParadas();
             //Mira en la ruta el tiempo de espera de las estaciones hasta llegar a la estacion de transbordo o de destino
