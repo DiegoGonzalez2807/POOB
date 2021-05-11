@@ -102,6 +102,31 @@ public class Sistema{
 
         return mejorRuta;
     }
+    
+     /**
+     * Funcion que retorna el tiempo que se demora un plan de ruta
+     * @param planRuta -(La entrada es {{nombreEstación1,nombreRuta1}...{nombreEstacion,null}}
+     * @return - Tiempo de recorrido
+     */
+    public tiempoRuta(String[][] planRuta){
+        int tiempo = 0;
+        Ruta ruta_ = null;
+        String estacion = null;
+        ArrayList<Estacion> estaciones= null;
+        if(planRuta.lemgth >2){
+            for(int i=0;i<planRuta.length-1;i++){
+                ruta_ =  rutas.get(parada[i][1]);
+                estacion = parada[i][0];
+                index = ruta_.index(estacion);
+                estaciones = ruta_.getParadas();
+                while(!estaciones.get(index).getName.equals(parada[i+1][0])){
+                    tiempo += estaciones.get(index).getTiempoEspera();
+                    index += 1;
+                }
+            }
+        }
+        return tiempo;
+    }
 
     /**
      * Importar una nueva ruta desde un archivo de texto. El archivo contiene el nombre de la
